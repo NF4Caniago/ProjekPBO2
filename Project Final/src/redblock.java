@@ -11,7 +11,7 @@ public class redblock extends DefaultTableCellRenderer{
             component.setForeground(Color.WHITE);
         }else if(row>9 && row <=14){
             component.setBackground(Color.YELLOW);
-        }else{
+        }else{ 
             component.setBackground(Color.white);
         }
         return component;

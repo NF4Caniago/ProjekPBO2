@@ -66,7 +66,7 @@ public class DaftarUser extends JFrame {
                 if(TFUser.getText().equals("") || PFPW.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Lengkapi Isian Terlebih Dahulu", "Peringatan!", JOptionPane.WARNING_MESSAGE);
                 }else{
-                    jdbc.LoginUser lg = new jdbc.LoginUser();
+                    jdbc.ProsesLogin lg = new jdbc.ProsesLogin();
                     int status = lg.getUser(TFUser.getText());
                     if(status == 1){
                         JOptionPane.showMessageDialog(null, "Username sudah ada", "Peringatan!", JOptionPane.WARNING_MESSAGE);
@@ -95,10 +95,7 @@ public class DaftarUser extends JFrame {
         }
         else{
             JOptionPane.showMessageDialog(null, "Isi Username atau Password Terlebih dahulu", "Hasil", JOptionPane.ERROR_MESSAGE);
+            System.out.println("daftaruser error");
         }
     }
-    
-//    public static void main(String[]args){
-//        new DaftarUser();
-//    }
 }

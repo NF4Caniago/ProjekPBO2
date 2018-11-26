@@ -55,7 +55,6 @@ public class CabutEdit extends JFrame {
     String[][]data = new String[20][4];
     String[][]data2 = new String[20][9];
     String[][]data3 = new String[20][3];
-    int p = 0;
     String TempD="";
     String Link="";
     
@@ -72,8 +71,11 @@ public class CabutEdit extends JFrame {
     JFileChooser FC;
     File FileTerpilih;
     ImageIcon Icon;
-    int baris, status = 0;
-    public CabutEdit(int b, String N){
+    int id, status = 0;
+    int p = 0;
+    
+    
+    public CabutEdit(final int id, String N){
         //Pengaturan Frame
         setTitle("Pendaftaran Peserta didik Baru");
         setSize(500,700);
@@ -118,36 +120,40 @@ public class CabutEdit extends JFrame {
         TFIndo.setEditable(false);
         TFIng.setEditable(false);
         TFTelepon.setEditable(false);
+        
+        
+        //setdata
         Posisi p = new Posisi();
         data = p.getJalurKeluarTabel();
-        data2 = p.getJalurKeluarData();
-        
+        data2 = p.getJalurKeluarData(this.id);
         Load();
         scrollpane = new JScrollPane(tabel);
+        
+        
         if(data2[0][0].equals("Error")){
-            JOptionPane.showMessageDialog(null, "Terjadi kesalahan sambungan DataBase!", "Koneksi Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan sambungan DataBase! di cabut edit", "Koneksi Error", JOptionPane.ERROR_MESSAGE);
         }
-                baris=b;
+                this.id=id;
                 TFNISN.setText(N);
-                TFNama.setText(data[baris][0]);
-                TFAlamat.setText(data[baris][2]);
-                TFKelamin.setText(data2[baris][1]);
-                TFBeasiswa.setText(data2[baris][2]);
-                TFTTL.setText(data2[baris][3]);
-                ImageIcon icon = new ImageIcon(data2[baris][0]);
+                TFNama.setText(data[this.id][0]);
+                TFAlamat.setText(data[this.id][2]);
+                TFKelamin.setText(data2[this.id][1]);
+                TFBeasiswa.setText(data2[this.id][2]);
+                TFTTL.setText(data2[this.id][3]);
+                ImageIcon icon = new ImageIcon(data2[this.id][0]);
                 Photo.setIcon(icon);
-                TFIPA.setText(data2[baris][4]);
-                TFMTK.setText(data2[baris][5]);
-                TFIndo.setText(data2[baris][6]);
-                TFIng.setText(data2[baris][7]);
-                TFTelepon.setText(data2[baris][8]);
-                try{ NEM= Double.parseDouble(data[baris][1]);}
+                TFIPA.setText(data2[this.id][4]);
+                TFMTK.setText(data2[this.id][5]);
+                TFIndo.setText(data2[this.id][6]);
+                TFIng.setText(data2[this.id][7]);
+                TFTelepon.setText(data2[this.id][8]);
+                try{ NEM= Double.parseDouble(data[this.id][1]);}
                 catch(Exception e){}
                 int zona = p.getPosisi(TFNama.getText());
-                if(zona > 9 && baris<=14){
-                    Keterangan.setText("Posisi anda kurang aman!! Siap siap cabut data!");
+                if(zona > 9 && this.id<=14){
+                    Keterangan.setText("Posisi anda kurang aman!!");
                 }else if(zona>14){
-                    Keterangan.setText("Anda berada pada zona merah! Segera cabut data!");
+                    Keterangan.setText("Anda berada pada zona merah!");
                     Keterangan.setForeground(Color.decode("#D80000"));
                 }
                
@@ -203,7 +209,7 @@ public class CabutEdit extends JFrame {
                 TFIng.setEditable(false);
                 TFTelepon.setEditable(false);
                 Load();
-                new CabutEdit(baris,TFNISN.getText()).setVisible(true);dispose();
+                new CabutEdit(id,TFNISN.getText()).setVisible(true);dispose();
             }    
         });
         Upload.addActionListener(new ActionListener(){

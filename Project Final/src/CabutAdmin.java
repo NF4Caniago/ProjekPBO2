@@ -15,9 +15,7 @@ public class CabutAdmin extends JFrame {
     JLabel Background = new JLabel(new ImageIcon(getClass().getResource("assets/Background.png")));
     JLabel Side = new JLabel(new ImageIcon(getClass().getResource("assets/Side.png")));
     JLabel Photo = new JLabel(new ImageIcon(getClass().getResource("assets/icon-profile.png"))); 
-    
     JLabel HeadForm = new JLabel("Data Calon Peserta didik Baru");
-    
     JLabel LNISN = new JLabel("Username");
     JLabel LNama = new JLabel("Nama");
     JLabel LKelamin = new JLabel("Jenis Kelamin");
@@ -51,16 +49,16 @@ public class CabutAdmin extends JFrame {
     JButton Simpan = new JButton("Simpan");
     JButton Upload = new JButton("Upload Foto");
     
-    String[][]data = new String[20][4];
-    String[][]data2 = new String[20][9];
-    String[][]data3 = new String[20][3];
-    int p = 0;
-    String TempD="";
-    String Link="";
-    
     
     JTable tabel;
     JScrollPane scrollpane;
+    
+    
+    String[][]data = new String[20][4];
+    String[][]data2 = new String[20][9];
+    String[][]data3 = new String[20][3];
+    String TempD="";
+    String Link="";
     String[] kolom = {"Nama", "NEM", "Alamat"};
     Connection koneksi;
     Statement statement;
@@ -72,7 +70,9 @@ public class CabutAdmin extends JFrame {
     File FileTerpilih;
     ImageIcon Icon;
     int baris, status = 0;
-    public CabutAdmin(int b, String N){
+    int p = 0;
+    
+    public CabutAdmin(int id, String N){
         //Pengaturan Frame
         setTitle("Pendaftaran Peserta didik Baru");
         setSize(500,700);
@@ -119,14 +119,14 @@ public class CabutAdmin extends JFrame {
         TFTelepon.setEditable(false);
         Posisi p = new Posisi();
         data = p.getJalurKeluarTabel();
-        data2 = p.getJalurKeluarData();
+        data2 = p.getJalurKeluarData(id);
         
         Load();
         scrollpane = new JScrollPane(tabel);
         if(data2[0][0].equals("Error")){
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan sambungan DataBase!", "Koneksi Error", JOptionPane.ERROR_MESSAGE);
         }
-                baris=b;
+                baris=id;
                 TFNISN.setText(N);
                 TFNama.setText(data[baris][0]);
                 TFAlamat.setText(data[baris][2]);

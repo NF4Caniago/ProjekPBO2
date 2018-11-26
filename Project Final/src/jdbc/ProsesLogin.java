@@ -1,12 +1,16 @@
 package jdbc;
 import java.sql.*;
-public class LoginUser extends konektivitas {
+import Encrypt.controller;
+public class ProsesLogin extends konektivitas {
     Statement statement;
     ResultSet resultset;
-    int[][] x = new int [1][2];
+    int[][] x = new int [1][2]; // variabel penyimpan status kolom 1 status user/admin kolom 2 id data
     int i = 0,p;
     boolean ada= false; // cek adanya user
-    String[][] data = new String[50][2];
+    String[][] data = new String[50][3];
+    controller cntrl = new controller();
+    
+    
     private int[][] Login(String User, String PW){
        if(getkoneksi()==1){
             try{
@@ -15,26 +19,27 @@ public class LoginUser extends konektivitas {
                 statement = koneksi.createStatement();
                 resultset = statement.executeQuery("select * from pengguna");
                 while(resultset.next()){
-                    data[i][0]= resultset.getString("User");
-                    data[i][1]=resultset.getString("PW");
+                    data[i][0] = resultset.getString("id");
+                    data[i][1]= cntrl.decrypt(resultset.getString("User"));
+                    data[i][2]= cntrl.decrypt(resultset.getString("PW"));
+                    System.out.println(""+data[i][1]);
+                    System.out.println(""+data[i][2]);
                     i++;
                 }
                 
 //                if((User.equals(resultset.getString("User"))&& PW.equals(resultset.getString("PW")))){
                 
                 for(int i=0; i<this.i; i++){
-                    if(data[i][0].equals(User) && data[i][1].equals(PW)){
+                    
+                    if(data[i][1].equals(User) && data[i][2].equals(PW)){
                         x[0][0]=1;
-                        x[0][1]=i;
+                        x[0][1]= Integer.parseInt(data[i][0]);
                         
-                        if(data[i][0].equals("admin") && data[i][1].equals("admin")){
+                        if(data[i][1].equals("admin") && data[i][2].equals("admin")){
                             x[0][0] = 2;          
                     }
                     }
-                  
                 }
-                
-                
                 
                 if( (x[0][0]!= 1) && (x[0][0] != 2)){
                     x[0][0] = 0;

@@ -186,7 +186,5 @@ public class Daftar extends JFrame {
             Photo.setIcon(icon);
         }
     }
-//    public static void main(String[]args){
-//        new Daftar();
-//    }
+
 }

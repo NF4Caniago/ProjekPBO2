@@ -60,8 +60,8 @@ public class MainFrame extends JFrame {
         
         //Ambildata
         Posisi p = new Posisi();
-        int bantu = p.getTotalPendaftar();
-        JTPeserta = ""+bantu;
+        int jumlahPeserta = p.getTotalPendaftar();
+        JTPeserta = ""+jumlahPeserta;
         Data = p.getNEMAB();
         if(JTPeserta.equals("-1")){
             JOptionPane.showMessageDialog(null, "Gagal Terhubung dengan DataBase!", "Koneksi Error", JOptionPane.ERROR_MESSAGE);
@@ -72,8 +72,8 @@ public class MainFrame extends JFrame {
             JOptionPane.showMessageDialog(null, "Gagal Terhubung dengan DataBase!", "Koneksi Error", JOptionPane.ERROR_MESSAGE);
         }else{
             IsiTop.setText(Data[0]);
-            if(bantu > 0){
-            IsiButtom.setText(Data[bantu-1]);
+            if(jumlahPeserta > 0){
+            IsiButtom.setText(Data[jumlahPeserta-1]);
             }
         }
        

@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
-import jdbc.LoginUser;
+import jdbc.ProsesLogin;
 public class Login extends JFrame {
     JLabel Header = new JLabel(new ImageIcon(getClass().getResource("assets/Header.jpg")));
     JLabel Background = new JLabel(new ImageIcon(getClass().getResource("assets/Background.png")));
@@ -17,7 +17,6 @@ public class Login extends JFrame {
     JPanel Form = new JPanel(new GridLayout(2,2));
     
     JButton Kembali = new JButton("Kembali");
-   
     JButton Login = new JButton("Login");
     
     Connection koneksi;
@@ -33,11 +32,11 @@ public class Login extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
+        
         //Background Head x Visi
         add(Header);
         Header.setBounds(0, 0, 500, 125);       
         
-        //
         add(HeadForm);
         HeadForm.setFont(new java.awt.Font("Arial", 1, 14));
         HeadForm.setBounds(180, 140, 300, 20);
@@ -66,25 +65,29 @@ public class Login extends JFrame {
         });
         Login.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+                
                 if(TFUser.getText().equals("") && PFPW.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Isikan Username dan Password terlebih dahulu!","Gagal Login", JOptionPane.ERROR_MESSAGE);    
                 }else if(TFUser.getText().equals("") || PFPW.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Isian belum lengkap!","Gagal Login", JOptionPane.ERROR_MESSAGE);
                     
+                // diatas cek nullable textfield
+                    
+          
                 }else{
-                    LoginUser LU = new LoginUser();
-                    int [][]hasil = LU.getLogin(TFUser.getText(), PFPW.getText());
-                    int baris = hasil[0][1];
+                    ProsesLogin PL = new ProsesLogin();
+                    int [][]hasil = PL.getLogin(TFUser.getText(), PFPW.getText());
+                    int id = hasil[0][1]; 
                     if(hasil[0][0] == 2){
                         JOptionPane.showMessageDialog(null, "Selamat datang "+TFUser.getText()+"!", "Login Sukses!", JOptionPane.INFORMATION_MESSAGE);
-                        new CabutAdmin(baris, TFUser.getText()).setVisible(true); dispose();;
+                        new CabutAdmin(id, TFUser.getText()).setVisible(true); dispose();;
                     }else if(hasil[0][0] == 1){
                         JOptionPane.showMessageDialog(null, "Selamat datang "+TFUser.getText()+"!", "Login Sukses!", JOptionPane.INFORMATION_MESSAGE);
-                        new CabutEdit(baris, TFUser.getText()).setVisible(true); dispose();;
+                        new CabutEdit(id, TFUser.getText()).setVisible(true); dispose();;
                     }
                     else if(hasil[0][0]==0){
                         JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan", "Peringatan!", JOptionPane.ERROR_MESSAGE);
-                        System.out.println(hasil[0][0]);
+                        System.out.println(hasil[0][0]+"user tidak terdeteksi");
                     }else if(hasil[0][0]==-1){
                         JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada sambungan database!", "Error!", JOptionPane.ERROR_MESSAGE);
                     }
@@ -94,7 +97,5 @@ public class Login extends JFrame {
         
     }
     
-//    public static void main(String[]args){
-//        new Login();
-//    }
+
 }

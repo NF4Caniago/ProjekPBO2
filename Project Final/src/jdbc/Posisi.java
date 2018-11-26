@@ -3,7 +3,8 @@ import java.sql.SQLException;
 
 public class Posisi extends DataKeluar {
     private String[][] data = new String[20][3];
-    int ps = 0, p = 0 , x = 0, i = 0 ; String[][] data2 = new String[20][9];
+    int ps = 0, p = 0 , i = 0 ; 
+    String[][] data2 = new String[1][9];
     String[] data3 = new String[20];
     private String[][] JalurKeluarTabelFIX(){
         if(getkoneksi()==1){
@@ -26,31 +27,33 @@ public class Posisi extends DataKeluar {
             return data;
         }
     }
-    private String[][] JalurKeluarDataFIX(){
+    private String[][] JalurKeluarDataFIX(int id){
         if(getkoneksi()==1){
             try{
                 statement = koneksi.createStatement();
-                resultset = statement.executeQuery("select * from data order by NEM desc");
-                while(resultset.next()){
-                    data2[x][0] = resultset.getString("Photo");
-                    data2[x][1] = resultset.getString("Kelamin");
-                    data2[x][2] = resultset.getString("Beasiswa");
-                    data2[x][3] = resultset.getString("TTL");
-                    data2[x][4] = resultset.getString("Ipa");
-                    data2[x][5] = resultset.getString("Mtk");
-                    data2[x][6] = resultset.getString("Indo");
-                    data2[x][7] = resultset.getString("Ing");
-                    data2[x][8] = resultset.getString("Telpon");
-                    x++;
-                }
+                resultset = statement.executeQuery("select * from data where id ="+id);
+                
+                    data2[0][0] = resultset.getString("Photo");
+                    data2[0][1] = resultset.getString("Kelamin");
+                    data2[0][2] = resultset.getString("Beasiswa");
+                    data2[0][3] = resultset.getString("TTL");
+                    data2[0][4] = resultset.getString("Ipa");
+                    data2[0][5] = resultset.getString("Mtk");
+                    data2[0][6] = resultset.getString("Indo");
+                    data2[0][7] = resultset.getString("Ing");
+                    data2[0][8] = resultset.getString("Telpon");
+                
                 statement.close();
                 koneksi.close();
-                if(x==0){
-                    data2[0][0] = "Error";
-                    return data2;
-                }else{
-                    return data2; 
-                }  
+//                if(x==0){
+//                    data2[0][0] = "Error";
+//                    return data2;
+//                }else{
+//                    return data2; 
+//                }  
+
+                return data2; 
+                
             }catch(SQLException ex){
                 data2[0][0] = "Error";
                 return data2;
@@ -60,6 +63,8 @@ public class Posisi extends DataKeluar {
             return data2;
         } 
     }
+    
+    
     private int PosisiFIX(String Nama){
         if(getkoneksi()==1){
             try{
@@ -105,8 +110,8 @@ public class Posisi extends DataKeluar {
     public String[][] getJalurKeluarTabelFIX(){
         return JalurKeluarTabelFIX();
     }
-    public String[][] getJalurKeluarDataFIX(){
-        return JalurKeluarDataFIX();
+    public String[][] getJalurKeluarDataFIX(int id){
+        return JalurKeluarDataFIX(id);
     }
     public int getPosisi(String Nama){
         return PosisiFIX(Nama);
